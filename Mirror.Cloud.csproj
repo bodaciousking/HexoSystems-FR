@@ -79,11 +79,11 @@
     <Compile Include="Assets\Mirror\Cloud\ListServer\ListServerServerApi.cs" />
     <None Include="Assets\Mirror\Cloud\Mirror.Cloud.asmdef" />
     <None Include="Assets\Mirror\Cloud\version.txt" />
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/2019.3.7f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

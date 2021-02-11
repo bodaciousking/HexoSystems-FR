@@ -91,11 +91,11 @@
     <Compile Include="Assets\Mirror\Editor\Weaver\WeaverTypes.cs" />
     <Compile Include="Assets\Mirror\Editor\Weaver\Writers.cs" />
     <None Include="Assets\Mirror\Editor\Weaver\Mirror.Weaver.asmdef" />
-    <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>C:/Users/Erik's Pc/Documents/GitHub/HexoSystems-FR/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
