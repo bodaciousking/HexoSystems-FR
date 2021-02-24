@@ -5,24 +5,25 @@ using Mirror;
 
 namespace Mirror.Example.Pong
 {
-    
-
     public class Player : NetworkBehaviour
     {
-
         public int energy = 0;
         public int cardsInHand = 0;
-        public int maxHealth = 10; // change this later 
-        public int currentHealth = 10; 
+
+        public int baseEnergy = 10; //This is better off in some sort of "gamesettings" script
+        CityHandler cH;
 
         //other player stats
+        private void Start()
+        {
+            cH = GetComponent<CityHandler>();
+        }
+        public void GenerateEnergy()
+        {
+            energy = 0;
+            energy = cH.DetermineEnergyGeneratedByCities() + baseEnergy;
+        }
 
-
-
-
-
-
-        // Update is called once per frame
         void Update()
         {
 
@@ -32,6 +33,6 @@ namespace Mirror.Example.Pong
             }
 
         }
-    }
 
+    }
 }
