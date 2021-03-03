@@ -8,6 +8,7 @@ public class MapGeneration : MonoBehaviour
     public GameObject planetSphere;
     CameraControll cC;
     public int numPlayers;
+    public float planetSize = 40;
 
     void Start()
     {
@@ -27,7 +28,6 @@ public class MapGeneration : MonoBehaviour
             int numRows = 15;
 
             GameObject planetObject = Instantiate(planetSphere, mapHolder.transform.position, Quaternion.identity);
-            float planetSize = 40;
             planetObject.transform.position += new Vector3((numRows - 1) / 2, -(planetSize/2) +1.5f, -1.5f);
             planetObject.transform.localScale *= planetSize;
             Color planetColor = Color.white;// Random.ColorHSV();

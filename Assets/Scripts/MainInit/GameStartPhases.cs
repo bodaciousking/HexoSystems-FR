@@ -8,9 +8,9 @@ public class GameStartPhases : MonoBehaviour
     MsgDisplay msgD;
     CameraControll cC;
     TemplateSelection tS;
+    TurnStructure turnStructureScript;
     public static GameStartPhases instance;
     float phaseTimer, phaseDelay = 3;
-    public int currentPlayerTurn;
     public void Awake()
     {
         if (instance != null)
@@ -29,20 +29,20 @@ public class GameStartPhases : MonoBehaviour
 
     private void Start()
     {
-        currentPlayerTurn = 1;
         msgD = MsgDisplay.instance;
         cC = CameraControll.instance;
         tS = TemplateSelection.instance;
+        turnStructureScript = TurnStructure.instance;
         currentPhase = initPhase.Welcome;
         msgD.DisplayMessage("Welcome", 2f);
     }
 
     public void Update()
     {
-        if(currentPhase == initPhase.Welcome)
+        if (currentPhase == initPhase.Welcome)
         {
             phaseTimer += Time.deltaTime;
-            if(phaseTimer >= phaseDelay)
+            if (phaseTimer >= phaseDelay)
             {
                 PlaceCities();
             }
@@ -51,7 +51,7 @@ public class GameStartPhases : MonoBehaviour
 
     public void PlaceCities()
     {
-        msgD.DisplayMessage("Choose Your Layout", 2f);
+        msgD.DisplayMessage("Choose Your Layout", 1f);
         currentPhase = initPhase.PlaceCities;
         tS.FadeInImage();
         //cC.GoToPos(cC.camSpots[0]);
@@ -59,8 +59,9 @@ public class GameStartPhases : MonoBehaviour
 
     public void PreparePhase()
     {
-        msgD.DisplayMessage("Prepare Yourself", 4f);
+        msgD.DisplayMessage("Prepare Yourself", 1f);
         currentPhase = initPhase.Prepare;
+        turnStructureScript.NextPhase();
     }
 
     public void Delay(float timeToDelay)

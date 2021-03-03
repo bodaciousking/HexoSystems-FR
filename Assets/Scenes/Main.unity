@@ -1002,8 +1002,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   camTargetInit: {fileID: 209608238}
-  camSpots:
-  - {fileID: 0}
   desiredDistance: 60
   camSpot1: {fileID: 0}
 --- !u!1 &469590726
@@ -1816,8 +1814,9 @@ GameObject:
   - component: {fileID: 963358333}
   - component: {fileID: 963358334}
   - component: {fileID: 963358335}
+  - component: {fileID: 963358336}
   m_Layer: 0
-  m_Name: GameMaster
+  m_Name: ClientMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1865,7 +1864,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhase: 0
-  currentPlayerTurn: 0
 --- !u!114 &963358332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1901,6 +1899,7 @@ MonoBehaviour:
   planetSphere: {fileID: 1777117443855289286, guid: 1639ed816d21f594aa798b21ad5fe777,
     type: 3}
   numPlayers: 2
+  planetSize: 30
 --- !u!114 &963358334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1933,6 +1932,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhase: 0
+  numTurns: 0
+  cameraTest: 0
+  testPhaseTime: 2
+  standbyPhaseTime: 2
+  titlePhaseTime: 3
+  energyPhaseTime: 3
+  recalibratePhaseTime: 5
+  drawPhaseTime: 30
+  strategyPhaseTime: 120
+  resolutionPhaseTime: 30
+  discardPhaseTime: 3
+--- !u!114 &963358336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963358328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eed713c3b58eceb47b24146c6d775390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generatedEnergy: 0
 --- !u!1 &970745174
 GameObject:
   m_ObjectHideFlags: 0
