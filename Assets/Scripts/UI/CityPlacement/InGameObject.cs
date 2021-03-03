@@ -5,35 +5,57 @@ using UnityEngine;
 public class InGameObject : MonoBehaviour
 {
     Targetting targettingScript;
-    TemplateSelection tS;
     public bool blocker;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
+        if (other.gameObject.name == "Main")
         {
-            if (other.gameObject.name == "Main")
+            GameObject hextileObject = other.gameObject.transform.parent.gameObject;
+
+            Hextile tileScript = hextileObject.GetComponent<Hextile>();
+
+            if (!tileScript.isCity && !tileScript.blocked)
             {
-                GameObject hextileObject = other.gameObject.transform.parent.gameObject;
+                Renderer hextileRenderer = hextileObject.transform.Find("Main").GetComponent<Renderer>();
 
-                Hextile tileScript = hextileObject.GetComponent<Hextile>();
-
-                if (!tileScript.isCity && !tileScript.blocked)
+                if (!blocker)
                 {
-                    Renderer hextileRenderer = hextileObject.transform.Find("Main").GetComponent<Renderer>();
-
-                    if (!blocker)
-                    {
-                        hextileRenderer.material.color = Color.blue;
-                        targettingScript.AddTileToCity(tileScript);
-                    }
-                    else
-                    {
-                        hextileRenderer.material.color = Color.yellow;
-                        targettingScript.AddTileToBlockedArea(tileScript);
-                    }
+                    hextileRenderer.material.color = Color.blue;
+                    targettingScript.AddTileToCity(tileScript);
                 }
+                else
+                {
+                    hextileRenderer.material.color = Color.yellow;
+                    targettingScript.AddTileToBlockedArea(tileScript);
+                }
+            }
 
+
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name == "Main")
+        {
+            GameObject hextileObject = other.gameObject.transform.parent.gameObject;
+
+            Hextile tileScript = hextileObject.GetComponent<Hextile>();
+
+            if (!tileScript.isCity && !tileScript.blocked)
+            {
+                Renderer hextileRenderer = hextileObject.transform.Find("Main").GetComponent<Renderer>();
+
+                if (!blocker)
+                {
+                    hextileRenderer.material.color = Color.blue;
+                    targettingScript.AddTileToCity(tileScript);
+                }
+                else
+                {
+                    hextileRenderer.material.color = Color.yellow;
+                    targettingScript.AddTileToBlockedArea(tileScript);
+                }
             }
         }
     }
@@ -47,7 +69,11 @@ public class InGameObject : MonoBehaviour
 
             if (!tileScript.isCity && !tileScript.blocked)
             {
-                targettingScript.CancelCity();
+                Transform gfx = hextileObject.transform.Find("Main");
+                Renderer hextileRenderer = gfx.GetComponent<Renderer>();
+                FloorGfx hextileGfx = gfx.GetComponent<FloorGfx>();
+                hextileRenderer.material.color = hextileGfx.myColor;
+                targettingScript.ClearCity();
             }
         }
     }
@@ -59,6 +85,5 @@ public class InGameObject : MonoBehaviour
     private void Start()
     {
         targettingScript = Targetting.instance;
-        tS = TemplateSelection.instance;
     }
 }
