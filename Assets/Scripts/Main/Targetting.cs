@@ -49,7 +49,6 @@ public class Targetting : MonoBehaviour
         int layerMask = 1 << 8;
         if (Physics.Raycast(ray, out hit, 5000, layerMask))
         {
-            Debug.Log(hit.collider.name);
             if(selectedCityObject)
                 selectedCityObject.transform.position = hit.transform.position;
 
