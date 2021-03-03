@@ -10,6 +10,7 @@ public class Targetting : MonoBehaviour
     public List<GameObject> cityPlaceObjects = new List<GameObject>();
     public static Targetting instance;
     TemplateSelection tS;
+    CityHandler cH;
     public int intendedSize;
     List<Hextile> possibleCity = new List<Hextile>();
     List<Hextile> possibleBlockedArea = new List<Hextile>();
@@ -31,6 +32,7 @@ public class Targetting : MonoBehaviour
     public void Start()
     {
         tS = TemplateSelection.instance;
+        cH = GetComponent<CityHandler>();
 
         for (int i = 0; i < cityPlaceObjects.Count; i++)
         {
@@ -49,10 +51,15 @@ public class Targetting : MonoBehaviour
         int layerMask = 1 << 8;
         if (Physics.Raycast(ray, out hit, 5000, layerMask))
         {
-            Debug.Log(hit.collider.name);
-            if(selectedCityObject)
+            if (selectedCityObject)
+            {
+                selectedCityObject.SetActive(true);
                 selectedCityObject.transform.position = hit.transform.position;
-
+            }
+        }
+        else if (selectedCityObject)
+        {
+            DisableCityPlacementPrefab();
         }
         if (selectedCityObject)
         {
@@ -98,6 +105,13 @@ public class Targetting : MonoBehaviour
             owningPlayer = tileScript.owningPlayerID;
             tileScript.transform.Find("Main").GetComponent<Renderer>().material.color = Color.gray;
         }
+
+        City newCity = new City();
+        List<Hextile> newList = new List<Hextile>(possibleCity);
+        newCity.cityTiles = newList;
+        newCity.cityEnergy = newCity.DetermineCityEnergy();
+        cH.myCities.Add(newCity);
+
         possibleCity.Clear();
 
         for (int i = 0; i < possibleBlockedArea.Count; i++)
@@ -111,10 +125,20 @@ public class Targetting : MonoBehaviour
 
         tS.DecrementRemainingCities(intendedSize);
     }
-    public void ClearCity()
+    public void CancelCity()
     {
+        for (int i = 0; i < possibleCity.Count; i++)
+        {
+            FloorGfx gfx = possibleCity[i].gameObject.GetComponentInChildren<FloorGfx>();
+            gfx.ReturnToOgColor();
+        }
         possibleCity.Clear();
 
+        for (int i = 0; i < possibleBlockedArea.Count; i++)
+        {
+            FloorGfx gfx = possibleBlockedArea[i].GetComponentInChildren<FloorGfx>();
+            gfx.ReturnToOgColor();
+        }
         possibleBlockedArea.Clear();
     }
     public void EnableCityPlacementPrefab(int listIndex)
@@ -145,6 +169,6 @@ public class Targetting : MonoBehaviour
     public void DisableCityPlacementPrefab()
     {
         selectedCityObject.SetActive(false);
-        ClearCity();
+        CancelCity();
     }
 }

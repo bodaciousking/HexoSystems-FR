@@ -25,8 +25,6 @@ public class CameraControll : MonoBehaviour
     public static CameraControll instance;
     public GameObject camTargetInit;
 
-    public List<Transform> camSpots = new List<Transform>();
-
 
     private float xDeg = 0.0f;
     private float yDeg = 0.0f;
@@ -36,6 +34,8 @@ public class CameraControll : MonoBehaviour
     private Quaternion rotation;
     private Vector3 position;
     private bool canMove = true;
+
+    CityHandler cH;
 
     void Start() { Init(); }
     void OnEnable() { Init(); }
@@ -51,6 +51,8 @@ public class CameraControll : MonoBehaviour
     }
     public void Init()
     {
+        cH = GameObject.Find("ClientMaster").GetComponent<CityHandler>();
+
         //If there is no target, create a temporary target at 'distance' from the cameras current viewpoint
         if (!target)
         {
@@ -83,13 +85,19 @@ public class CameraControll : MonoBehaviour
         yDeg -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
         Cursor.visible = false;
         desiredRotation = Quaternion.Euler(yDeg, xDeg, 0);
-
         yDeg = ClampAngle(yDeg, yMinLimit, yMaxLimit);
 
         // Clamp the vertical axis for the orbit & set camera rotation 
         currentRotation = transform.rotation;
 
         rotation = Quaternion.Lerp(currentRotation, desiredRotation, Time.deltaTime);
+
+        transform.rotation = rotation;
+    }
+
+    public void Orbit(Quaternion desiredRotation)
+    {
+        rotation = Quaternion.Lerp(currentRotation, desiredRotation, 5);
 
         transform.rotation = rotation;
     }
@@ -128,13 +136,9 @@ public class CameraControll : MonoBehaviour
             yDeg = ClampAngle(yDeg, yMinLimit, yMaxLimit);
             desiredRotation = Quaternion.Euler(yDeg, xDeg, 0);
 
+            //Debug.Log(desiredRotation);
 
-            // Clamp the vertical axis for the orbit & set camera rotation 
-            currentRotation = transform.rotation;
-
-            rotation = Quaternion.Lerp(currentRotation, desiredRotation, 5);
-
-            transform.rotation = rotation;
+            Orbit(desiredRotation);
         }
         else
             Cursor.visible = true;
@@ -244,6 +248,28 @@ public class CameraControll : MonoBehaviour
         //StartCoroutine(SwitchRot(obj.rotation));
     }
 
+    public void FindCoolSpot()
+    {
+        if (cH)
+        {
+            if(cH.myCities.Count > 0)
+            {
+                int randomCity = Random.Range(0, cH.myCities.Count - 1);
+                City chosenCity = cH.myCities[randomCity];
+                int randomBuilding = Random.Range(0, chosenCity.cityTiles.Count - 1);
+                GameObject chosenBuilding = chosenCity.cityTiles[randomBuilding].gameObject;
+
+                target.position = chosenBuilding.transform.position;
+                desiredDistance = Random.Range(5f, 15f);
+
+                //Orbit(new Quaternion(GetRandomSmallNum(), GetRandomSmallNum(), 0.0f, GetRandomSmallNum()));
+            }
+        }
+    }
+    public float GetRandomSmallNum()
+    {
+        return Random.Range(0, 0.5f);
+    }
     IEnumerator SwitchRot(Quaternion rot)
     {
         canMove = false;
