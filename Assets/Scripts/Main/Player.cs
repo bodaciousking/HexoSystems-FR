@@ -13,21 +13,28 @@ namespace Mirror.Example.Pong
         public int energy = 0;
         public int cardsInHand = 0;
         public int maxHealth = 10; // change this later 
-        public int currentHealth = 10; 
+        public int currentHealth = 10;
+
+        public GameObject PlayerHand;
+
 
         //other player stats
-
-
-
-
 
 
         // Update is called once per frame
         void Update()
         {
+           
+
 
             if (isLocalPlayer)
             {
+
+                if (Input.anyKey)
+                {
+                    
+                }
+
                 //checks if this player is the owner 
             }
 
