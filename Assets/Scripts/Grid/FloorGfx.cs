@@ -5,10 +5,4 @@ using UnityEngine;
 public class FloorGfx : MonoBehaviour
 {
     public Color myColor;
-
-    public void ReturnToOgColor()
-    {
-        Renderer rend = GetComponent<Renderer>();
-        rend.material.color = myColor;
-    }
 }

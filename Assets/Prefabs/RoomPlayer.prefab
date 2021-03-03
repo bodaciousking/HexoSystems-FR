@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7705558771897454736}
   - component: {fileID: -1295413243311571084}
   - component: {fileID: 6578222075685294806}
+  - component: {fileID: 6776931957313405434}
+  - component: {fileID: 4462151212283747424}
   m_Layer: 0
   m_Name: RoomPlayer
   m_TagString: Untagged
@@ -60,3 +62,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878bae77dfdfe554496648921a307a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6776931957313405434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154679441697863318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d621be7b93b1a46b5d970c893ace76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  energy: 0
+  cardsInHand: 0
+  maxHealth: 10
+  currentHealth: 10
+  PlayerHand: {fileID: 0}
+--- !u!114 &4462151212283747424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154679441697863318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8984f1d860806114bb3f904f814efe89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hand: []
