@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Targetting : MonoBehaviour
+public class CityPlacement : MonoBehaviour
 {
     public GameObject target;
     public GameObject selectedCityObject;
     public List<GameObject> cityPlaceObjects = new List<GameObject>();
-    public static Targetting instance;
+    public static CityPlacement instance;
     TemplateSelection tS;
+    CityHandler cH;
     public int intendedSize;
     List<Hextile> possibleCity = new List<Hextile>();
     List<Hextile> possibleBlockedArea = new List<Hextile>();
@@ -31,6 +32,7 @@ public class Targetting : MonoBehaviour
     public void Start()
     {
         tS = TemplateSelection.instance;
+        cH = GetComponent<CityHandler>();
 
         for (int i = 0; i < cityPlaceObjects.Count; i++)
         {
@@ -49,9 +51,15 @@ public class Targetting : MonoBehaviour
         int layerMask = 1 << 8;
         if (Physics.Raycast(ray, out hit, 5000, layerMask))
         {
+            if(tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
+                selectedCityObject.SetActive(true);
             if(selectedCityObject)
                 selectedCityObject.transform.position = hit.transform.position;
-
+        }
+        else if (selectedCityObject)
+        {
+            selectedCityObject.SetActive(false);
+            ResetColors();
         }
         if (selectedCityObject)
         {
@@ -96,6 +104,13 @@ public class Targetting : MonoBehaviour
             tileScript.isCity = !tileScript.isCity;
             owningPlayer = tileScript.owningPlayerID;
             tileScript.transform.Find("Main").GetComponent<Renderer>().material.color = Color.gray;
+
+            City newCity = new City();
+            newCity.cityTiles = possibleCity;
+            newCity.owner = owningPlayer;
+            newCity.cityEnergy = newCity.DetermineCityEnergy();
+            cH.myCities.Add(newCity);
+
         }
         possibleCity.Clear();
 
@@ -109,6 +124,25 @@ public class Targetting : MonoBehaviour
         possibleBlockedArea.Clear();
 
         tS.DecrementRemainingCities(intendedSize);
+    }
+    public void ResetColors()
+    {
+        for (int i = 0; i < possibleCity.Count; i++)
+        {
+            GameObject hextileObject = possibleCity[i].gameObject;
+            Transform gfx = hextileObject.transform.Find("Main");
+            Renderer hextileRenderer = gfx.GetComponent<Renderer>();
+            FloorGfx hextileGfx = gfx.GetComponent<FloorGfx>();
+            hextileRenderer.material.color = hextileGfx.myColor;
+        }
+        for (int i = 0; i < possibleBlockedArea.Count; i++)
+        {
+            GameObject hextileObject = possibleBlockedArea[i].gameObject;
+            Transform gfx = hextileObject.transform.Find("Main");
+            Renderer hextileRenderer = gfx.GetComponent<Renderer>();
+            FloorGfx hextileGfx = gfx.GetComponent<FloorGfx>();
+            hextileRenderer.material.color = hextileGfx.myColor;
+        }
     }
     public void ClearCity()
     {

@@ -6,14 +6,15 @@ public class CityPlaceButton : MonoBehaviour
 {
     public int citySize;
     public int actualSize;
-    Targetting targettingScript;
+    CityPlacement targettingScript;
 
     private void Start()
     {
-        targettingScript = Targetting.instance;
+        targettingScript = CityPlacement.instance;
     }
     public void SelectSize()
     {
+        targettingScript.ClearCity();
         targettingScript.EnableCityPlacementPrefab(citySize);
         targettingScript.intendedSize = actualSize;
     }

@@ -30,7 +30,7 @@ public class MapGeneration : MonoBehaviour
             GameObject planetObject = Instantiate(planetSphere, mapHolder.transform.position, Quaternion.identity);
             planetObject.transform.position += new Vector3((numRows - 1) / 2, -(planetSize/2) +1.5f, -1.5f);
             planetObject.transform.localScale *= planetSize;
-            Color planetColor = Color.white;// Random.ColorHSV();
+            Color planetColor = Random.ColorHSV();//Color.white;//
             planetObject.GetComponent<Renderer>().material.color = planetColor;
             planetObject.transform.parent = mapHolder;
             Planet planet = planetObject.gameObject.AddComponent<Planet>();
