@@ -1816,6 +1816,7 @@ GameObject:
   - component: {fileID: 963358333}
   - component: {fileID: 963358334}
   - component: {fileID: 963358335}
+  - component: {fileID: 963358336}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -1897,6 +1898,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823ac59c95d804a49a7d3713a1cefbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tiles: []
+  fog: {fileID: 8578514506706718218, guid: 70d56c6a29b67fe48a0c7180eef3c3cf, type: 3}
+  temp: {fileID: 0}
   hextile: {fileID: 2851368643890339124, guid: 4230ea756038a514ba55163af79887bf, type: 3}
   planetSphere: {fileID: 1777117443855289286, guid: 1639ed816d21f594aa798b21ad5fe777,
     type: 3}
@@ -1933,6 +1937,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhase: 0
+--- !u!114 &963358336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963358328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db787e11b3a57d47ba7549506b1b784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Master: {fileID: 963358328}
+  tiles: []
 --- !u!1 &970745174
 GameObject:
   m_ObjectHideFlags: 0

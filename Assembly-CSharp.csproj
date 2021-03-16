@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\Grid\Hextile.cs" />
     <Compile Include="Assets\Scripts\Main\CityHandler.cs" />
     <Compile Include="Assets\Scripts\Main\Decks.cs" />
+    <Compile Include="Assets\Scripts\Main\FOW.cs" />
     <Compile Include="Assets\Scripts\Main\GameNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Main\JoinLobby.cs" />
     <Compile Include="Assets\Scripts\Main\MainMenu.cs" />

@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class MapGeneration : MonoBehaviour
 {
+
+
+
+
+    public List<GameObject> tiles;
+
+    public GameObject fog;
+    public GameObject temp; 
+
     public GameObject hextile;
     public GameObject planetSphere;
+
     CameraControll cC;
     public int numPlayers;
 
@@ -22,7 +32,7 @@ public class MapGeneration : MonoBehaviour
             Transform mapHolder = new GameObject(holderName).transform;
             mapHolder.parent = transform;
 
-            List<Hextile> hextileList = new List<Hextile>();
+            List<Hextile> hextileList = new List<Hextile>(); // revert back when done  
 
             int numRows = 15;
 
@@ -48,7 +58,10 @@ public class MapGeneration : MonoBehaviour
                 for (int j = 0; j < rowLength; j++)
                 {
                     GameObject newTile = Instantiate(hextile, new Vector3(k, 0, j - rowCenter), Quaternion.identity);
+                    tiles.Add(newTile);
                     newTile.transform.parent = rowHolder;
+                    
+
 
                     GameObject floor = newTile.transform.Find("Main").gameObject;
                     floor.GetComponent<Renderer>().material.color = planetColor;
@@ -85,6 +98,7 @@ public class MapGeneration : MonoBehaviour
             camAnchor.transform.position = mapHolder.position += new Vector3(0, 0, numRows / 2);
             //cC.camSpots.Add(camAnchor);
         }
+        FogGen();
     }
 
     public int DetermineRowLength (int currentRow, int numRows)
@@ -112,11 +126,33 @@ public class MapGeneration : MonoBehaviour
             Debug.Log("Couldnt determine accurate rowLength!");
         }
         return rowLength;
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         
+
     }
+
+     public void FogGen()
+    {
+       Vector2 tempVec; 
+
+       for(int c = 0; c <= tiles.Count; c++)
+        {
+            temp = tiles[c];
+            tempVec = temp.GetComponent<Hextile>().tileLocation;
+
+            if (temp.GetComponent<Hextile>().visible == false)
+            {
+
+                Instantiate(fog, new Vector3(temp.transform.position.x, temp.transform.position.y+5, temp.transform.position.z), Quaternion.identity);
+            }
+        }
+    }
+
+
+
 }
