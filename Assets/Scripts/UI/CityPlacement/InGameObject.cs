@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InGameObject : MonoBehaviour
 {
-    Targetting targettingScript;
+    CityPlacement targettingScript;
     public bool blocker;
 
     private void OnTriggerEnter(Collider other)
@@ -69,10 +69,7 @@ public class InGameObject : MonoBehaviour
 
             if (!tileScript.isCity && !tileScript.blocked)
             {
-                Transform gfx = hextileObject.transform.Find("Main");
-                Renderer hextileRenderer = gfx.GetComponent<Renderer>();
-                FloorGfx hextileGfx = gfx.GetComponent<FloorGfx>();
-                hextileRenderer.material.color = hextileGfx.myColor;
+                targettingScript.ResetColors();
                 targettingScript.ClearCity();
             }
         }
@@ -84,6 +81,6 @@ public class InGameObject : MonoBehaviour
 
     private void Start()
     {
-        targettingScript = Targetting.instance;
+        targettingScript = CityPlacement.instance;
     }
 }

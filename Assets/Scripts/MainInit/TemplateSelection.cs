@@ -8,7 +8,7 @@ public class TemplateSelection : MonoBehaviour
     public int size7, size4, size3;
     public static TemplateSelection instance;
     public GameObject button7, button4, button3, choiceWndow;
-    Targetting targettingScript;
+    CityPlacement targettingScript;
     GameStartPhases gSP;
     MsgDisplay msgD;
 
@@ -135,7 +135,7 @@ public class TemplateSelection : MonoBehaviour
 
     private void Start()
     {
-        targettingScript = Targetting.instance;
+        targettingScript = CityPlacement.instance;
         gSP = GameStartPhases.instance;
         msgD = MsgDisplay.instance;
     }

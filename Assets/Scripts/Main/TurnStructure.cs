@@ -7,6 +7,8 @@ public class TurnStructure : MonoBehaviour
     public static TurnStructure instance;
     MsgDisplay msgD;
     CityHandler cH;
+    Decks decks;
+    DeckHandUI deckHandUI;
     public turnPhase currentPhase = turnPhase.Standby;
     public int numTurns = 0;
 
@@ -17,8 +19,8 @@ public class TurnStructure : MonoBehaviour
     public float standbyPhaseTime = 2f;
     public float titlePhaseTime = 3f;
     public float energyPhaseTime = 3f;
-    public float recalibratePhaseTime = 5f;
-    public float drawPhaseTime = 30f;
+    public float recalibratePhaseTime = 3f;
+    public float drawPhaseTime = 3f;
     public float strategyPhaseTime = 120f;
     public float resolutionPhaseTime = 30f;
     public float discardPhaseTime = 3f;
@@ -36,6 +38,8 @@ public class TurnStructure : MonoBehaviour
     {
         msgD = MsgDisplay.instance;
         cH = GetComponent<CityHandler>();
+        decks = GetComponent<Decks>();
+        deckHandUI = GameObject.Find("UIScripts").GetComponent<DeckHandUI>();
     }
     public enum turnPhase
     {
@@ -135,21 +139,19 @@ public class TurnStructure : MonoBehaviour
     public void BeginPhaseDraw()
     {
         msgD.DisplayMessage("Draw Phase", 1f);
-        //Code for drawing cards goes here.
 
-        if (cameraTest)
-        {
-            FindCamSpot();
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(drawPhaseTime);
+        decks.PrepareDecks();
+        deckHandUI.EnableDeckUI();
 
+
+
+
+        SetNextTurnTimer(drawPhaseTime);
     }
     public void BeginPhaseStrategy()
     {
         msgD.DisplayMessage("Strategy Phase", 1f);
-        //Code for strategy phase goes here.
+        deckHandUI.DisableDeckUI();
 
         if (cameraTest)
         {
