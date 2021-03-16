@@ -4,7 +4,97 @@ using UnityEngine;
 
 public class Decks : MonoBehaviour
 {
+    public Queue<Card> attackDeck;
+    public Queue<Card> defenceDeck;
+    public Queue<Card> reconDeck;
 
+    public List<Card> allAttackCards = new List<Card>();
+    public List<Card> allDefenceCards = new List<Card>();
+    public List<Card> allReconCards = new List<Card>();
+
+    Hand playerHand;
+    DeckHandUI dhUI;
+
+    private void Start()
+    {
+        PopulateAttackDeck();
+        PopulateDefenceDeck();
+        PopulateReconDeck();
+
+        playerHand = GetComponent<Hand>();
+        dhUI = GameObject.Find("UIScripts").GetComponent<DeckHandUI>();
+
+        PrepareDecks();
+    }
+
+    public void PopulateAttackDeck()
+    {
+        allAttackCards.Add(new ScatterShot());
+    }
+    public void PopulateDefenceDeck()
+    {
+        allDefenceCards.Add(new EmergencyShield());
+    }
+    public void PopulateReconDeck()
+    {
+        allReconCards.Add(new BraveExplorers());
+    }
+
+    public Card[] ShuffleDeck(List<Card> deck)
+    {
+        Card[] deckArray = deck.ToArray();
+        Card[] shuffledDeck;
+        shuffledDeck = Utility.ShuffleArray<Card>(deckArray, Random.Range(1,100));
+        return shuffledDeck;
+    }
+
+    public Card DrawCard(Queue<Card> deck)
+    {
+        Card drawnCard;
+        if (deck.Count > 0)
+        {
+            drawnCard = deck.Dequeue();
+
+            if (playerHand.hand.Count < 5)
+            { 
+                playerHand.hand.Add(drawnCard);
+                dhUI.DrawHandUI();
+                return drawnCard;
+            }
+            else
+            {
+                Debug.Log("Hand full.");
+                return null;
+            }
+        }
+        else
+        {
+            Debug.Log("Deck empty.");
+            return null;
+        }
+    }
+
+    public void PrepareDecks()
+    {
+        attackDeck = new Queue<Card>(ShuffleDeck(allAttackCards));
+        defenceDeck = new Queue<Card>(ShuffleDeck(allDefenceCards));
+        reconDeck = new Queue<Card>(ShuffleDeck(allReconCards));
+    }
+
+    public void DrawAttackCard()
+    {
+        DrawCard(attackDeck);
+    }
+    public void DrawDefenceCard()
+    {
+        DrawCard(defenceDeck);
+    }
+    public void DrawReconCard()
+    {
+        DrawCard(reconDeck);
+    }
+
+    /*
     private GameObject[] AttackDeckArr;
     public List<GameObject> AttackDeck;
     public List<GameObject> AttackDiscard;
@@ -90,5 +180,5 @@ public class Decks : MonoBehaviour
         }
     }
 
-
+    */
 }

@@ -5,10 +5,9 @@ using Mirror;
 
 namespace Mirror.Example.Pong
 {
-    
-
     public class Player : NetworkBehaviour
     {
+        public int playerID;
 
         public int energy = 0;
         public int cardsInHand = 0;
@@ -24,9 +23,6 @@ namespace Mirror.Example.Pong
         // Update is called once per frame
         void Update()
         {
-           
-
-
             if (isLocalPlayer)
             {
 
