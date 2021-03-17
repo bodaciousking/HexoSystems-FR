@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InGameObject : MonoBehaviour
+public class CityPlaceObject : MonoBehaviour
 {
     CityPlacement targettingScript;
     public bool blocker;

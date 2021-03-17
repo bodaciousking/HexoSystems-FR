@@ -8,11 +8,12 @@ public class TurnStructure : MonoBehaviour
     MsgDisplay msgD;
     CityHandler cH;
     Decks decks;
+    ResolutionPhase rP;
     DeckHandUI deckHandUI;
     public turnPhase currentPhase = turnPhase.Standby;
     public int numTurns = 0;
 
-    public bool cameraTest;
+    public bool testing;
 
 
     public float testPhaseTime = 2f;
@@ -21,7 +22,7 @@ public class TurnStructure : MonoBehaviour
     public float energyPhaseTime = 3f;
     public float recalibratePhaseTime = 3f;
     public float drawPhaseTime = 3f;
-    public float strategyPhaseTime = 120f;
+    public float strategyPhaseTime = 12f;
     public float resolutionPhaseTime = 30f;
     public float discardPhaseTime = 3f;
     private void Awake()
@@ -40,6 +41,7 @@ public class TurnStructure : MonoBehaviour
         cH = GetComponent<CityHandler>();
         decks = GetComponent<Decks>();
         deckHandUI = GameObject.Find("UIScripts").GetComponent<DeckHandUI>();
+        rP = GetComponent<ResolutionPhase>();
     }
     public enum turnPhase
     {
@@ -101,9 +103,8 @@ public class TurnStructure : MonoBehaviour
         numTurns++;
         msgD.DisplayMessage("Eon " + numTurns, 1f);
 
-        if (cameraTest)
+        if (testing)
         {
-            FindCamSpot();
             SetNextTurnTimer(testPhaseTime);
         }
         else
@@ -115,9 +116,8 @@ public class TurnStructure : MonoBehaviour
         generatedEnergy = cH.DetermineEnergyGeneratedByCities() + 10 /* 10 = baseEnergy */;
         msgD.DisplayMessage("Energy Generated: " + generatedEnergy, 1f);
 
-        if (cameraTest)
+        if (testing)
         {
-            FindCamSpot();
             SetNextTurnTimer(testPhaseTime);
         }
         else
@@ -128,9 +128,8 @@ public class TurnStructure : MonoBehaviour
         msgD.DisplayMessage("Recalibrate Phase", 1f);
         //Code for regenerating/decaying shields, etc. goes here.
 
-        if (cameraTest)
+        if (testing)
         {
-            FindCamSpot();
             SetNextTurnTimer(testPhaseTime);
         }
         else
@@ -143,9 +142,6 @@ public class TurnStructure : MonoBehaviour
         decks.PrepareDecks();
         deckHandUI.EnableDeckUI();
 
-
-
-
         SetNextTurnTimer(drawPhaseTime);
     }
     public void BeginPhaseStrategy()
@@ -153,9 +149,8 @@ public class TurnStructure : MonoBehaviour
         msgD.DisplayMessage("Strategy Phase", 1f);
         deckHandUI.DisableDeckUI();
 
-        if (cameraTest)
+        if (testing)
         {
-            FindCamSpot();
             SetNextTurnTimer(testPhaseTime);
         }
         else
@@ -163,12 +158,11 @@ public class TurnStructure : MonoBehaviour
     }
     public void BeginPhaseResolution()
     {
-        msgD.DisplayMessage("Resolution Phase", 1f);
-        //Code for playing out cards and actions goes here.
+        //msgD.DisplayMessage("Resolution Phase", 1f);
+        rP.BeginPlayActions();
 
-        if (cameraTest)
+        if (testing)
         {
-            FindCamSpot();
             SetNextTurnTimer(testPhaseTime);
         }
         else
@@ -179,9 +173,8 @@ public class TurnStructure : MonoBehaviour
         msgD.DisplayMessage("Discard Phase", 1f);
         //Code for discarding cards goes here.
 
-        if (cameraTest)
+        if (testing)
         {
-            FindCamSpot();
             SetNextTurnTimer(testPhaseTime);
         }
         else
@@ -208,6 +201,6 @@ public class TurnStructure : MonoBehaviour
 
     public void ToggleTest()
     {
-        cameraTest = !cameraTest;
+        testing = !testing;
     }
 }

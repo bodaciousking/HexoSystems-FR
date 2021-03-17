@@ -10,6 +10,17 @@ public class DeckHandUI : MonoBehaviour
     public Transform handHolder;
     public GameObject handCardButton;
     Hand playerHand;
+    public static DeckHandUI instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.Log("Too many DeckHandUI scripts!");
+            return;
+        }
+        instance = this;
+    } //Singleton
 
     public void EnableDeckUI()
     {
@@ -18,6 +29,14 @@ public class DeckHandUI : MonoBehaviour
     public void DisableDeckUI()
     {
         deckUI.SetActive(false);
+    } 
+    public void EnableHandUI()
+    {
+        handHolder.gameObject.SetActive(true);
+    }
+    public void DisableHandUI()
+    {
+        handHolder.gameObject.SetActive(false);
     }
 
     public void DrawHandUI()

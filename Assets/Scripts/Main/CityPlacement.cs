@@ -47,30 +47,33 @@ public class CityPlacement : MonoBehaviour
     }
     public void Update()
     {
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        int layerMask = 1 << 8;
-        if (Physics.Raycast(ray, out hit, 5000, layerMask))
+        if (tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
         {
-            if(tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
-                selectedCityObject.SetActive(true);
-            if(selectedCityObject)
-                selectedCityObject.transform.position = hit.transform.position;
-        }
-        else if (selectedCityObject)
-        {
-            selectedCityObject.SetActive(false);
-            ResetColors();
-        }
-        if (selectedCityObject)
-        {
-            if (Input.GetKeyDown(KeyCode.R))
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            int layerMask = 1 << 8;
+            if (Physics.Raycast(ray, out hit, 5000, layerMask))
             {
-                selectedCityObject.transform.Rotate(0, 60, 0);
+                if (tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
+                    selectedCityObject.SetActive(true);
+                if (selectedCityObject)
+                    selectedCityObject.transform.position = hit.transform.position;
             }
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            else if (selectedCityObject)
             {
-                if (!EventSystem.current.IsPointerOverGameObject())
-                    CreateCity();
+                selectedCityObject.SetActive(false);
+                ResetColors();
+            }
+            if (selectedCityObject)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    selectedCityObject.transform.Rotate(0, 60, 0);
+                }
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                        CreateCity();
+                }
             }
         }
     }
@@ -97,29 +100,30 @@ public class CityPlacement : MonoBehaviour
             Debug.Log("City too small!");
             return;
         }
-        int owningPlayer;
+
+        City newCity = new City();
+        newCity.cityTiles = possibleCity;
         for (int i = 0; i < possibleCity.Count; i++)
         {
             Hextile tileScript = possibleCity[i];
             tileScript.isCity = !tileScript.isCity;
-            owningPlayer = tileScript.owningPlayerID;
             tileScript.transform.Find("Main").GetComponent<Renderer>().material.color = Color.gray;
-
-            City newCity = new City();
-            newCity.cityTiles = possibleCity;
-            newCity.owner = owningPlayer;
-            newCity.cityEnergy = newCity.DetermineCityEnergy();
-            cH.myCities.Add(newCity);
-
+            tileScript.containingCity = newCity;
+            FloorGfx fgfx = tileScript.transform.Find("Main").GetComponent<FloorGfx>();
+            fgfx.myColor = Color.gray;
         }
+        newCity.cityEnergy = newCity.DetermineCityEnergy();
+        cH.myCities.Add(newCity);
+
+
         possibleCity.Clear();
 
         for (int i = 0; i < possibleBlockedArea.Count; i++)
         {
             Hextile tileScript = possibleBlockedArea[i];
             tileScript.blocked = !tileScript.blocked;
-            owningPlayer = tileScript.owningPlayerID;
-            tileScript.transform.Find("Main").GetComponent<Renderer>().material.color = Color.green;
+            FloorGfx fgfx = tileScript.transform.Find("Main").GetComponent<FloorGfx>();
+            tileScript.transform.Find("Main").GetComponent<Renderer>().material.color = fgfx.myColor;
         }
         possibleBlockedArea.Clear();
 

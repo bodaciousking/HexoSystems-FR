@@ -45,7 +45,7 @@ public class TemplateSelection : MonoBehaviour
             button3.SetActive(true);
         }
 
-        msgD.DisplayMessage("Place Your Cities", 1f);
+        msgD.DisplayMessage("Place Your Cities", 0.5f);
     }
 
     private void Update()

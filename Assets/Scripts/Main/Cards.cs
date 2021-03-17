@@ -22,6 +22,8 @@ public class Card
     public virtual void PlayCard()
     {
         Debug.Log("Playing " + cardName + "...");
+        DeckHandUI dHUI = DeckHandUI.instance;
+        dHUI.DisableHandUI();
     }
 
     public enum TargetType
@@ -79,6 +81,8 @@ public class ScatterShot : AttackCard
             selectedTargets.Add(enemyTileList[randomNumbers[i]]);
         }
 
+        DeckHandUI dhUI = DeckHandUI.instance;
+        dhUI.EnableHandUI();
         //Card Resolution
 
         for (int i = 0; i < selectedTargets.Count; i++)
@@ -106,10 +110,27 @@ public class EmergencyShield : DefenceCard
         shieldType = 0;
         shieldsRestored = 2;
     }
+    public override void PlayCard()
+    {
+        base.PlayCard();
+
+        Targetting targetting = Targetting.instance;
+        targetting.SelectObjectAoE(0);
+        targetting.currentCondition = Targetting.TargetCondition.isFriendlyCity;
+
+        EmergencyShieldAction emergencyShieldAction = new EmergencyShieldAction();
+        emergencyShieldAction.actionName = "Emergency Shield";
+        emergencyShieldAction.actionType = 1;
+        emergencyShieldAction.effectedCity = null;
+        emergencyShieldAction.shieldStrength = shieldsRestored;
+
+        ResolutionPhase rP = ResolutionPhase.instance;
+        rP.storedDefenceAction = emergencyShieldAction;
+    }
 }
 
-/////// RECON CARD LIST
-public class BraveExplorers : ReconCard
+    /////// RECON CARD LIST
+    public class BraveExplorers : ReconCard
 {
     public BraveExplorers()
     {

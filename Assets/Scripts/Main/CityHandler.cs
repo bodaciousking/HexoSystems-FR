@@ -7,7 +7,7 @@ public class CityHandler : MonoBehaviour
     public int myID;
     public List<City> myCities = new List<City>();
     public int generatedEnergy = 0;
-    
+    public int numCities;
 
     public int DetermineEnergyGeneratedByCities()
     {
@@ -19,6 +19,11 @@ public class CityHandler : MonoBehaviour
 
         return allCityEnergy;
     }
+
+    private void Update()
+    {
+        numCities = myCities.Count;
+    }
 }
 
 public class City
@@ -26,6 +31,8 @@ public class City
     public List<Hextile> cityTiles;
     public int cityEnergy;
     public int owner;
+
+
 
     public int DetermineCityEnergy()
     {

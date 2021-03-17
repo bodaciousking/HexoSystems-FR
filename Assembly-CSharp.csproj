@@ -84,13 +84,15 @@
     <Compile Include="Assets\Scripts\Main\PlayerNameInput.cs" />
     <Compile Include="Assets\Scripts\Main\ResolutionPhase.cs" />
     <Compile Include="Assets\Scripts\Main\SettingsMenu.cs" />
+    <Compile Include="Assets\Scripts\Main\Targetting.cs" />
+    <Compile Include="Assets\Scripts\Main\TargettingObjectCollision.cs" />
     <Compile Include="Assets\Scripts\Main\TurnStructure.cs" />
     <Compile Include="Assets\Scripts\MainInit\GameStartPhases.cs" />
     <Compile Include="Assets\Scripts\MainInit\MapGeneration.cs" />
     <Compile Include="Assets\Scripts\MainInit\TemplateButton.cs" />
     <Compile Include="Assets\Scripts\MainInit\TemplateSelection.cs" />
     <Compile Include="Assets\Scripts\UI\CityPlacement\CityPlaceButton.cs" />
-    <Compile Include="Assets\Scripts\UI\CityPlacement\InGameObject.cs" />
+    <Compile Include="Assets\Scripts\UI\CityPlacement\CityPlaceObject.cs" />
     <Compile Include="Assets\Scripts\UI\DeckHandUI.cs" />
     <Compile Include="Assets\Scripts\UI\GameStartUI.cs" />
     <Compile Include="Assets\Scripts\Utility\Utility.cs" />

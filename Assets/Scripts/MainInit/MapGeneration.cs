@@ -99,7 +99,7 @@ public class MapGeneration : MonoBehaviour
             camAnchor.transform.position = mapHolder.position += new Vector3(0, 0, numRows / 2);
             //cC.camSpots.Add(camAnchor);
         }
-        FogGen();
+        //FogGen();
     }
 
     public int DetermineRowLength (int currentRow, int numRows)
