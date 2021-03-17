@@ -503,10 +503,10 @@ RectTransform:
   m_Father: {fileID: 302972634}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 69.9}
-  m_SizeDelta: {x: 0, y: 43.179993}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 67.4}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &295415068
 MonoBehaviour:
@@ -571,7 +571,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 0
+  m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -2096,8 +2096,6 @@ GameObject:
   - component: {fileID: 963358335}
   - component: {fileID: 963358337}
   - component: {fileID: 963358338}
-  - component: {fileID: 963358340}
-  - component: {fileID: 963358339}
   m_Layer: 0
   m_Name: ClientMaster
   m_TagString: Untagged
@@ -2178,9 +2176,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823ac59c95d804a49a7d3713a1cefbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiles: []
-  fog: {fileID: 8578514506706718218, guid: 70d56c6a29b67fe48a0c7180eef3c3cf, type: 3}
-  temp: {fileID: 0}
   hextile: {fileID: 2851368643890339124, guid: 4230ea756038a514ba55163af79887bf, type: 3}
   planetSphere: {fileID: 1777117443855289286, guid: 1639ed816d21f594aa798b21ad5fe777,
     type: 3}
@@ -2219,14 +2214,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPhase: 0
   numTurns: 0
-  testing: 0
+  cameraTest: 0
   testPhaseTime: 2
   standbyPhaseTime: 2
   titlePhaseTime: 3
   energyPhaseTime: 3
   recalibratePhaseTime: 5
-  drawPhaseTime: 8
-  strategyPhaseTime: 15
+  drawPhaseTime: 30
+  strategyPhaseTime: 120
   resolutionPhaseTime: 30
   discardPhaseTime: 3
 --- !u!114 &963358336
@@ -2243,7 +2238,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myID: 0
   generatedEnergy: 0
-  numCities: 0
 --- !u!114 &963358337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2268,36 +2262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8984f1d860806114bb3f904f814efe89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &963358339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963358328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0deb9a713cdd244fb56fea55e3e3099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &963358340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963358328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f0665ef856eb049bc9a17e8696e8bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedTargettingObject: {fileID: 0}
-  targettingObjects:
-  - {fileID: 5866381600675743117, guid: 65a98a1cc30390441bc45dfe6a2963e6, type: 3}
-  targets: []
-  singleTarget: {fileID: 0}
-  currentCondition: 0
 --- !u!1 &970745174
 GameObject:
   m_ObjectHideFlags: 0
@@ -4051,7 +4015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1867312743
 RectTransform:
   m_ObjectHideFlags: 0
