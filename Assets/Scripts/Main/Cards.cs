@@ -13,17 +13,24 @@ public class Card
 {
     public int cardID;
     public string cardName;
+    public int cardType;
     public int energyCost;
 
     public TargetType targetType; 
     public int targetSize;
     public int numTargets;
 
-    public virtual void PlayCard()
+    public virtual void PlayCard(bool playedByAI)
     {
         Debug.Log("Playing " + cardName + "...");
         DeckHandUI dHUI = DeckHandUI.instance;
-        dHUI.DisableHandUI();
+        if (!playedByAI)
+        {
+            Hands hand = Hands.instance;
+            hand.hand.Remove(this);
+            dHUI.DrawHandUI();
+            dHUI.DisableHandUI();
+        }
     }
 
     public enum TargetType
@@ -54,6 +61,7 @@ public class ScatterShot : AttackCard
     public ScatterShot()
     {
         cardID = 001;
+        cardType = 0;
         cardName = "Scatter Shot";
         energyCost = 2;
         targetType = TargetType.random;
@@ -61,13 +69,21 @@ public class ScatterShot : AttackCard
         damageDealt = 1;
     }
 
-    public override void PlayCard()
+    public override void PlayCard(bool playedByAI)
     {
-        base.PlayCard();
+        base.PlayCard(playedByAI);
 
-        GameObject clientMaster = GameObject.Find("ClientMaster"); 
-        GameObject enemyMapTransform = clientMaster.transform.Find("Player 1 Map").gameObject;
+
+        GameObject clientMaster = GameObject.Find("ClientMaster");
+        GameObject enemyMapTransform;
+
+        if (!playedByAI)
+            enemyMapTransform = clientMaster.transform.Find("Player 1 Map").gameObject;
+        else
+            enemyMapTransform = clientMaster.transform.Find("Player 0 Map").gameObject;
+
         GameObject enemyPlanetTransform = enemyMapTransform.transform.Find("Planet(Clone)").gameObject;
+
         Planet enemyPlanet = enemyPlanetTransform.GetComponent<Planet>();
 
         List<Hextile> enemyTileList = enemyPlanet.hextileList;
@@ -76,6 +92,7 @@ public class ScatterShot : AttackCard
         var rnd = new System.Random();
         var randomNumbers = Enumerable.Range(0, enemyTileList.Count).OrderBy(x => rnd.Next()).Take(4).ToList();
 
+
         for (int i = 0; i < randomNumbers.Count; i++)
         {
             selectedTargets.Add(enemyTileList[randomNumbers[i]]);
@@ -83,17 +100,16 @@ public class ScatterShot : AttackCard
 
         DeckHandUI dhUI = DeckHandUI.instance;
         dhUI.EnableHandUI();
-        //Card Resolution
 
-        for (int i = 0; i < selectedTargets.Count; i++)
-        {
-            GameObject hextileObject = selectedTargets[i].gameObject;
-            Transform gfx = hextileObject.transform.Find("Main");
-            Renderer hextileRenderer = gfx.GetComponent<Renderer>();
-            FloorGfx hextileGfx = gfx.GetComponent<FloorGfx>();
-            hextileRenderer.material.color = Color.red;
-        }
+        ScatterShotAction ssa = new ScatterShotAction();
+        ssa.targets = selectedTargets;
+        ssa.actionName = "Scatter Shot";
+        ssa.damage = damageDealt;
+        ssa.actionType = 0;
 
+        ResolutionPhase rP = ResolutionPhase.instance;
+        rP.attackActions.Add(ssa); 
+        
     }
 }
 
@@ -103,6 +119,7 @@ public class EmergencyShield : DefenceCard
     public EmergencyShield()
     {
         cardID = 101;
+        cardType = 1;
         cardName = "Emergency Shield";
         energyCost = 3;
         targetType = TargetType.selectTarget;
@@ -110,22 +127,25 @@ public class EmergencyShield : DefenceCard
         shieldType = 0;
         shieldsRestored = 2;
     }
-    public override void PlayCard()
+    public override void PlayCard(bool playedByAI)
     {
-        base.PlayCard();
+        base.PlayCard(playedByAI);
 
-        Targetting targetting = Targetting.instance;
-        targetting.SelectObjectAoE(0);
-        targetting.currentCondition = Targetting.TargetCondition.isFriendlyCity;
+        if (!playedByAI)
+        {
+            Targetting targetting = Targetting.instance;
+            targetting.SelectObjectAoE(0);
+            targetting.currentCondition = Targetting.TargetCondition.isFriendlyCity;
 
-        EmergencyShieldAction emergencyShieldAction = new EmergencyShieldAction();
-        emergencyShieldAction.actionName = "Emergency Shield";
-        emergencyShieldAction.actionType = 1;
-        emergencyShieldAction.effectedCity = null;
-        emergencyShieldAction.shieldStrength = shieldsRestored;
+            EmergencyShieldAction emergencyShieldAction = new EmergencyShieldAction();
+            emergencyShieldAction.actionName = "Emergency Shield";
+            emergencyShieldAction.actionType = 1;
+            emergencyShieldAction.effectedCity = null;
+            emergencyShieldAction.shieldStrength = shieldsRestored;
 
-        ResolutionPhase rP = ResolutionPhase.instance;
-        rP.storedDefenceAction = emergencyShieldAction;
+            ResolutionPhase rP = ResolutionPhase.instance;
+            rP.storedDefenceAction = emergencyShieldAction;
+        }
     }
 }
 
@@ -135,11 +155,51 @@ public class EmergencyShield : DefenceCard
     public BraveExplorers()
     {
         cardID = 201;
+        cardType = 2;
         cardName = "Brave Explorers";
         energyCost = 2;
         targetType = TargetType.selectTarget;
         numTargets = 4;
         visionDuration = 1;
+    }
+
+    public override void PlayCard(bool playedByAI)
+    {
+        base.PlayCard(playedByAI);
+
+        GameObject clientMaster = GameObject.Find("ClientMaster");
+        GameObject enemyMapTransform;
+        if (!playedByAI)
+            enemyMapTransform = clientMaster.transform.Find("Player 1 Map").gameObject;
+        else
+            enemyMapTransform = clientMaster.transform.Find("Player 0 Map").gameObject;
+
+        GameObject enemyPlanetTransform = enemyMapTransform.transform.Find("Planet(Clone)").gameObject;
+        Planet enemyPlanet = enemyPlanetTransform.GetComponent<Planet>();
+
+        List<Hextile> enemyTileList = enemyPlanet.hextileList;
+        List<Hextile> selectedTargets = new List<Hextile>();
+
+        var rnd = new System.Random();
+        var randomNumbers = Enumerable.Range(0, enemyTileList.Count).OrderBy(x => rnd.Next()).Take(4).ToList();
+
+        Debug.Log(randomNumbers[0]);
+        for (int i = 0; i < randomNumbers.Count; i++)
+        {
+            selectedTargets.Add(enemyTileList[randomNumbers[i]]);
+        }
+
+        DeckHandUI dhUI = DeckHandUI.instance;
+        dhUI.EnableHandUI();
+
+
+        BraveExplorersAction bea = new BraveExplorersAction(playedByAI);
+        bea.targets = selectedTargets;
+        bea.actionName = "Brave Explorers";
+        bea.actionType = 2;
+
+        ResolutionPhase rP = ResolutionPhase.instance;
+        rP.reconActions.Add(bea);
     }
 }
 

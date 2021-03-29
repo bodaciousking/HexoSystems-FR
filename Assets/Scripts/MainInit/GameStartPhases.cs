@@ -9,6 +9,7 @@ public class GameStartPhases : MonoBehaviour
     CameraControll cC;
     TemplateSelection tS;
     TurnStructure turnStructureScript;
+    AICities aIC;
     public static GameStartPhases instance;
     float phaseTimer, phaseDelay = 3;
     public void Awake()
@@ -32,6 +33,7 @@ public class GameStartPhases : MonoBehaviour
         msgD = MsgDisplay.instance;
         cC = CameraControll.instance;
         tS = TemplateSelection.instance;
+        aIC = AICities.instance;
         turnStructureScript = TurnStructure.instance;
         currentPhase = initPhase.Welcome;
         msgD.DisplayMessage("Welcome", 2f);
@@ -54,6 +56,7 @@ public class GameStartPhases : MonoBehaviour
         msgD.DisplayMessage("Choose Your Layout", 1f);
         currentPhase = initPhase.PlaceCities;
         tS.FadeInImage();
+        aIC.SelectRandomTemplate();
         //cC.GoToPos(cC.camSpots[0]);
     }
 
@@ -61,7 +64,10 @@ public class GameStartPhases : MonoBehaviour
     {
         msgD.DisplayMessage("Prepare Yourself", 1f);
         currentPhase = initPhase.Prepare;
-        turnStructureScript.NextPhase();
+        if (aIC.donePlacing)
+        {
+            turnStructureScript.NextPhase(); 
+        }
     }
 
     public void Delay(float timeToDelay)

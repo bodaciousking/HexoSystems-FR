@@ -11,9 +11,11 @@ public class Hextile : MonoBehaviour
     public bool blocked;
     public GameObject myCity;
     public GameObject myShield;
+    public GameObject myFire;
     public City containingCity;
     public int owningPlayerID;
-    public int shields;
+    public int permanentShields;
+    public int decayShields;
     public int health;
 
     public bool visible = false; //Edit by Erik 
@@ -28,6 +30,10 @@ public class Hextile : MonoBehaviour
         if (isCity)
         {
             myCity.SetActive(true);
+            if (health <= 0)
+            {
+                myFire.SetActive(true);
+            }
         } 
         if (shielded)
         {
@@ -39,4 +45,22 @@ public class Hextile : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int dmg)
+    {
+        health = health - dmg;
+        if(health <= 0) { Explode(); }
+    }
+
+    public void Explode()
+    {
+        containingCity.cityTiles.Remove(this);
+        containingCity.CheckDestroyed();
+
+        GameObject hextileObject = gameObject;
+        Transform gfx = hextileObject.transform.Find("Main");
+        FloorGfx fgfx = gfx.GetComponent<FloorGfx>();
+        fgfx.myColor = Color.red;
+        Renderer hextileRenderer = gfx.GetComponent<Renderer>();
+        hextileRenderer.material.color = Color.red;
+    }
 }

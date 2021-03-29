@@ -53,10 +53,13 @@ public class CityPlacement : MonoBehaviour
             int layerMask = 1 << 8;
             if (Physics.Raycast(ray, out hit, 5000, layerMask))
             {
-                if (tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
-                    selectedCityObject.SetActive(true);
-                if (selectedCityObject)
-                    selectedCityObject.transform.position = hit.transform.position;
+                if (hit.collider.transform.parent.GetComponent<Hextile>().owningPlayerID == 0)
+                {
+                    if (tS.size3 > 0 || tS.size4 > 0 || tS.size7 > 0)
+                        selectedCityObject.SetActive(true);
+                    if (selectedCityObject)
+                        selectedCityObject.transform.position = hit.transform.position;
+                }
             }
             else if (selectedCityObject)
             {
@@ -102,18 +105,22 @@ public class CityPlacement : MonoBehaviour
         }
 
         City newCity = new City();
-        newCity.cityTiles = possibleCity;
+        List<Hextile> newCityTiles = new List<Hextile>(possibleCity);
+        newCity.cityTiles = newCityTiles;
+        newCity.cityEnergy = newCity.DetermineCityEnergy();
+        newCity.owner = 0;
+        cH.myCities.Add(newCity);
+
         for (int i = 0; i < possibleCity.Count; i++)
         {
             Hextile tileScript = possibleCity[i];
             tileScript.isCity = !tileScript.isCity;
             tileScript.transform.Find("Main").GetComponent<Renderer>().material.color = Color.gray;
             tileScript.containingCity = newCity;
+            tileScript.health = 2;
             FloorGfx fgfx = tileScript.transform.Find("Main").GetComponent<FloorGfx>();
             fgfx.myColor = Color.gray;
         }
-        newCity.cityEnergy = newCity.DetermineCityEnergy();
-        cH.myCities.Add(newCity);
 
 
         possibleCity.Clear();

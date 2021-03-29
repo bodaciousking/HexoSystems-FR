@@ -9,7 +9,7 @@ public class DeckHandUI : MonoBehaviour
     public GameObject deckUI;
     public Transform handHolder;
     public GameObject handCardButton;
-    Hand playerHand;
+    Hands playerHand;
     public static DeckHandUI instance;
 
     private void Awake()
@@ -55,13 +55,13 @@ public class DeckHandUI : MonoBehaviour
             text.text = cardToDraw.cardName;
 
             Button actualButton = newCardButton.GetComponent<Button>();
-            actualButton.onClick.AddListener(() => cardToDraw.PlayCard());
+            actualButton.onClick.AddListener(() => cardToDraw.PlayCard(false));
         }
     }
     // Start is called before the first frame update
     void Start()
     {
-        playerHand = GameObject.Find("ClientMaster").GetComponent<Hand>();
+        playerHand = GameObject.Find("ClientMaster").GetComponent<Hands>();
     }
 
     // Update is called once per frame

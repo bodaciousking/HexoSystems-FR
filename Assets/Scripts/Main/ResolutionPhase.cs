@@ -51,6 +51,13 @@ public class ResolutionPhase : MonoBehaviour
         StartCoroutine(ActionLoop());
     }
 
+    public void ClearActions()
+    {
+        attackActions.Clear();
+        defenceActions.Clear();
+        reconActions.Clear();
+    }
+
     public IEnumerator ActionLoop()
     {
         for (int i = 0; i < attackActions.Count; i++)
@@ -71,10 +78,8 @@ public class ResolutionPhase : MonoBehaviour
         {
             ReconAction rA = reconActions[i];
             rA.ExecuteAction();
-
         }
-        yield return new WaitForSeconds(1f);
-
+        ClearActions();
     }
 }
 
@@ -83,6 +88,7 @@ public class CardAction
     public int actionType; // 0 = Attack, 1 = Defence, 2 = Scouting
     public string actionName;
     public Hextile target;
+    public List<Hextile> targets = new List<Hextile>();
 
     public virtual void ExecuteAction()
     {
@@ -105,7 +111,28 @@ public class ReconAction : CardAction
 {
 
 }
+// ATTACK ACTIONS
 
+public class ScatterShotAction : AttackAction
+{
+    public override void ExecuteAction()
+    {
+        base.ExecuteAction();
+
+        //Card Resolution
+
+        for (int i = 0; i < targets.Count; i++)
+        {
+            Hextile hextileObject = targets[i];
+            if (hextileObject.isCity)
+            {
+                hextileObject.TakeDamage(2);
+            }
+        }
+    }
+}
+
+// DEFENSE ACTIONS
 public class EmergencyShieldAction : DefenceAction
 {
     public override void ExecuteAction()
@@ -113,6 +140,41 @@ public class EmergencyShieldAction : DefenceAction
         base.ExecuteAction();
 
         target.shielded = true;
-        target.shields += shieldStrength;
+        target.decayShields += shieldStrength;
+    }
+}
+
+//RECON ACTIONS
+
+public class BraveExplorersAction : ReconAction
+{
+    bool playedByAI;
+    public BraveExplorersAction(bool _playedByAI)
+    {
+        playedByAI = _playedByAI;
+    }
+    public override void ExecuteAction()
+    {
+        base.ExecuteAction();
+
+        foreach (Hextile item in targets)
+        {
+            GameObject hextileObject = item.gameObject;
+            Transform gfx = hextileObject.transform.Find("Main");
+            Renderer hextileRenderer = gfx.GetComponent<Renderer>();
+            hextileRenderer.material.color = Color.blue;
+
+            item.visible = true;
+            if (playedByAI)
+            {
+                if (item.isCity)
+                {
+                    Debug.Log("Added a city tile to AI Enmy tiles.");
+                    GameObject cM = GameObject.Find("ClientMaster");
+                    AIInfo aiI = cM.GetComponent<AIInfo>();
+                    aiI.enemyTiles.Add(item);
+                }
+            }
+        }
     }
 }

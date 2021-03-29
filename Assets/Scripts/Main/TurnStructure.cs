@@ -55,8 +55,22 @@ public class TurnStructure : MonoBehaviour
         Discard
     }
 
+    public void ResetAllTimers()
+    {
+        StopCoroutine(TimeNextTurn(testPhaseTime));
+        StopCoroutine(TimeNextTurn(standbyPhaseTime));
+        StopCoroutine(TimeNextTurn(titlePhaseTime));
+        StopCoroutine(TimeNextTurn(energyPhaseTime));
+        StopCoroutine(TimeNextTurn(recalibratePhaseTime));
+        StopCoroutine(TimeNextTurn(drawPhaseTime));
+        StopCoroutine(TimeNextTurn(strategyPhaseTime));
+        StopCoroutine(TimeNextTurn(resolutionPhaseTime));
+        StopCoroutine(TimeNextTurn(discardPhaseTime));
+    }
+
     public void NextPhase()
     {
+        ResetAllTimers();
         switch (currentPhase)
         {
             case turnPhase.Standby:
@@ -141,6 +155,7 @@ public class TurnStructure : MonoBehaviour
 
         decks.PrepareDecks();
         deckHandUI.EnableDeckUI();
+        deckHandUI.EnableHandUI();
 
         SetNextTurnTimer(drawPhaseTime);
     }
@@ -158,7 +173,7 @@ public class TurnStructure : MonoBehaviour
     }
     public void BeginPhaseResolution()
     {
-        //msgD.DisplayMessage("Resolution Phase", 1f);
+        msgD.DisplayMessage("Resolution Phase", 1f);
         rP.BeginPlayActions();
 
         if (testing)

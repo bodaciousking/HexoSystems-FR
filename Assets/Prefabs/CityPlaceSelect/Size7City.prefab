@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &4526824136871492781
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -232,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &6909560663172082181
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -356,6 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &6544219770888783568
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -480,6 +483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &8122401274224500128
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -604,6 +608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &7942979165368912055
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -728,6 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &2617707160033921122
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -852,6 +858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &6115587941348046120
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -976,6 +983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &7364039909830358605
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1100,6 +1108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &5406244614863391087
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1224,6 +1233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &3252426536583922185
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1264,7 +1274,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5095923661905950878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 51, y: 0, z: 55.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6071654447053577785}
@@ -1459,6 +1469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &8867208722552136905
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1583,6 +1594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 0
+  AICity: 0
 --- !u!54 &6297372077220248921
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1707,6 +1719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &5726537921873194503
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1831,6 +1844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &2260742085082871550
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1955,6 +1969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &1413534730567093571
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2079,6 +2094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &3537851264574762520
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2203,6 +2219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &26360548107925682
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2327,6 +2344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &8058707854810587374
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2451,6 +2469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocker: 1
+  AICity: 0
 --- !u!54 &1703176796084481350
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CityPlaceObject : MonoBehaviour
 {
-    CityPlacement targettingScript;
-    public bool blocker;
+    CityPlacement cityPlacementScript;
+    AICities AICityPlacementScript;
+    public bool blocker, AICity;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,15 +20,28 @@ public class CityPlaceObject : MonoBehaviour
             {
                 Renderer hextileRenderer = hextileObject.transform.Find("Main").GetComponent<Renderer>();
 
-                if (!blocker)
+                if (AICity)
                 {
-                    hextileRenderer.material.color = Color.blue;
-                    targettingScript.AddTileToCity(tileScript);
+                    if (!blocker)
+                    { 
+                        AICityPlacementScript.AddTileToCity(tileScript);
+                    }
+                    else
+                        AICityPlacementScript.AddTileToBlockedArea(tileScript);
+
                 }
                 else
                 {
-                    hextileRenderer.material.color = Color.yellow;
-                    targettingScript.AddTileToBlockedArea(tileScript);
+                    if (!blocker)
+                    {
+                        hextileRenderer.material.color = Color.blue;
+                        cityPlacementScript.AddTileToCity(tileScript);
+                    }
+                    else
+                    {
+                        hextileRenderer.material.color = Color.yellow;
+                        cityPlacementScript.AddTileToBlockedArea(tileScript);
+                    }
                 }
             }
 
@@ -46,15 +60,26 @@ public class CityPlaceObject : MonoBehaviour
             {
                 Renderer hextileRenderer = hextileObject.transform.Find("Main").GetComponent<Renderer>();
 
-                if (!blocker)
+                if (AICity)
                 {
-                    hextileRenderer.material.color = Color.blue;
-                    targettingScript.AddTileToCity(tileScript);
+                    if (!blocker)
+                        AICityPlacementScript.AddTileToCity(tileScript);
+                    else
+                        AICityPlacementScript.AddTileToBlockedArea(tileScript);
+
                 }
                 else
                 {
-                    hextileRenderer.material.color = Color.yellow;
-                    targettingScript.AddTileToBlockedArea(tileScript);
+                    if (!blocker)
+                    {
+                        hextileRenderer.material.color = Color.blue;
+                        cityPlacementScript.AddTileToCity(tileScript);
+                    }
+                    else
+                    {
+                        hextileRenderer.material.color = Color.yellow;
+                        cityPlacementScript.AddTileToBlockedArea(tileScript);
+                    }
                 }
             }
         }
@@ -69,8 +94,8 @@ public class CityPlaceObject : MonoBehaviour
 
             if (!tileScript.isCity && !tileScript.blocked)
             {
-                targettingScript.ResetColors();
-                targettingScript.ClearCity();
+                cityPlacementScript.ResetColors();
+                cityPlacementScript.ClearCity();
             }
         }
     }
@@ -81,6 +106,7 @@ public class CityPlaceObject : MonoBehaviour
 
     private void Start()
     {
-        targettingScript = CityPlacement.instance;
+        cityPlacementScript = CityPlacement.instance;
+        AICityPlacementScript = AICities.instance; 
     }
 }

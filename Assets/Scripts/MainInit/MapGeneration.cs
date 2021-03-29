@@ -44,7 +44,6 @@ public class MapGeneration : MonoBehaviour
             planetObject.GetComponent<Renderer>().material.color = planetColor;
             planetObject.transform.parent = mapHolder;
             Planet planet = planetObject.gameObject.AddComponent<Planet>();
-            CityHandler cityHandler = planetObject.gameObject.AddComponent<CityHandler>();
             planet.hextileList = hextileList;
 
             for (int k = 1; k <= numRows; k++)
@@ -62,8 +61,6 @@ public class MapGeneration : MonoBehaviour
                     tiles.Add(newTile);
                     newTile.transform.parent = rowHolder;
                     
-
-
                     GameObject floor = newTile.transform.Find("Main").gameObject;
                     floor.GetComponent<Renderer>().material.color = planetColor;
                     floor.GetComponent<FloorGfx>().myColor = planetColor;
@@ -77,7 +74,7 @@ public class MapGeneration : MonoBehaviour
 
                     Hextile currentTileScript = newTile.GetComponent<Hextile>();
                     currentTileScript.tileLocation = new Vector2(k, j);
-                    currentTileScript.owningPlayerID = i+1;
+                    currentTileScript.owningPlayerID = i;
                     hextileList.Add(currentTileScript);
                 }
 

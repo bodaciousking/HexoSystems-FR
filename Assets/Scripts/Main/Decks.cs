@@ -8,12 +8,17 @@ public class Decks : MonoBehaviour
     public Queue<Card> defenceDeck;
     public Queue<Card> reconDeck;
 
+    public Queue<Card> aiAttackDeck;
+    public Queue<Card> aiDefenceDeck;
+    public Queue<Card> aiReconDeck;
+
     public List<Card> allAttackCards = new List<Card>();
     public List<Card> allDefenceCards = new List<Card>();
     public List<Card> allReconCards = new List<Card>();
 
-    Hand playerHand;
+    Hands playerHand;
     DeckHandUI dhUI;
+    AIInfo aiInfo;
 
     private void Start()
     {
@@ -21,14 +26,20 @@ public class Decks : MonoBehaviour
         PopulateDefenceDeck();
         PopulateReconDeck();
 
-        playerHand = GetComponent<Hand>();
+        playerHand = GetComponent<Hands>();
         dhUI = GameObject.Find("UIScripts").GetComponent<DeckHandUI>();
+        aiInfo = GetComponent<AIInfo>();
 
         PrepareDecks();
     }
 
     public void PopulateAttackDeck()
     {
+        allAttackCards.Add(new ScatterShot());
+        allAttackCards.Add(new ScatterShot());
+        allAttackCards.Add(new ScatterShot());
+        allAttackCards.Add(new ScatterShot());
+        allAttackCards.Add(new ScatterShot());
         allAttackCards.Add(new ScatterShot());
     }
     public void PopulateDefenceDeck()
@@ -37,6 +48,10 @@ public class Decks : MonoBehaviour
     }
     public void PopulateReconDeck()
     {
+        allReconCards.Add(new BraveExplorers());
+        allReconCards.Add(new BraveExplorers());
+        allReconCards.Add(new BraveExplorers());
+        allReconCards.Add(new BraveExplorers());
         allReconCards.Add(new BraveExplorers());
     }
 
@@ -47,6 +62,41 @@ public class Decks : MonoBehaviour
         shuffledDeck = Utility.ShuffleArray<Card>(deckArray, Random.Range(1,100));
         return shuffledDeck;
     }
+    public void PrepareDecks()
+    {
+        attackDeck = new Queue<Card>(ShuffleDeck(allAttackCards));
+        defenceDeck = new Queue<Card>(ShuffleDeck(allDefenceCards));
+        reconDeck = new Queue<Card>(ShuffleDeck(allReconCards));
+
+        aiAttackDeck = new Queue<Card>(ShuffleDeck(allAttackCards));
+        aiDefenceDeck = new Queue<Card>(ShuffleDeck(allDefenceCards));
+        aiReconDeck = new Queue<Card>(ShuffleDeck(allReconCards));
+    }
+    public Card aiDrawCard(Queue<Card> deck)
+    {
+        Card drawnCard;
+        if (deck.Count > 0)
+        {
+            drawnCard = deck.Dequeue();
+
+            if (aiInfo.aiHand.Count < 5)
+            {
+                aiInfo.aiHand.Add(drawnCard);
+                return drawnCard;
+            }
+            else
+            {
+                Debug.Log("Hand full.");
+                return null;
+            }
+        }
+        else
+        {
+            Debug.Log("Deck empty.");
+            return null;
+        }
+    }
+
 
     public Card DrawCard(Queue<Card> deck)
     {
@@ -72,13 +122,6 @@ public class Decks : MonoBehaviour
             Debug.Log("Deck empty.");
             return null;
         }
-    }
-
-    public void PrepareDecks()
-    {
-        attackDeck = new Queue<Card>(ShuffleDeck(allAttackCards));
-        defenceDeck = new Queue<Card>(ShuffleDeck(allDefenceCards));
-        reconDeck = new Queue<Card>(ShuffleDeck(allReconCards));
     }
 
     public void DrawAttackCard()
