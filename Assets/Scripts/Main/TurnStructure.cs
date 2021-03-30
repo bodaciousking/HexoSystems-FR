@@ -10,6 +10,7 @@ public class TurnStructure : MonoBehaviour
     Decks decks;
     ResolutionPhase rP;
     DeckHandUI deckHandUI;
+    DeckHandUI enemyDeckHandUI;
     public turnPhase currentPhase = turnPhase.Standby;
     public int numTurns = 0;
 
@@ -41,6 +42,7 @@ public class TurnStructure : MonoBehaviour
         cH = GetComponent<CityHandler>();
         decks = GetComponent<Decks>();
         deckHandUI = GameObject.Find("UIScripts").GetComponent<DeckHandUI>();
+        enemyDeckHandUI = GameObject.Find("UIEnemy").GetComponent<DeckHandUI>();
         rP = GetComponent<ResolutionPhase>();
     }
     public enum turnPhase
@@ -156,6 +158,8 @@ public class TurnStructure : MonoBehaviour
         decks.PrepareDecks();
         deckHandUI.EnableDeckUI();
         deckHandUI.EnableHandUI();
+        enemyDeckHandUI.EnableDeckUI();
+        enemyDeckHandUI.EnableHandUI();
 
         SetNextTurnTimer(drawPhaseTime);
     }
@@ -163,6 +167,7 @@ public class TurnStructure : MonoBehaviour
     {
         msgD.DisplayMessage("Strategy Phase", 1f);
         deckHandUI.DisableDeckUI();
+        enemyDeckHandUI.DisableDeckUI();
 
         if (testing)
         {

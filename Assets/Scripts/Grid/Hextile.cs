@@ -28,7 +28,7 @@ public class Hextile : MonoBehaviour
     }
     private void Update()
     {
-        if (owningPlayerID > 1)
+        if (owningPlayerID == 1)
         {
             if (visible == false)
             {
