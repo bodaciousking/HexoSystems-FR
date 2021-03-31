@@ -113,7 +113,42 @@ public class ScatterShot : AttackCard
 
         ResolutionPhase rP = ResolutionPhase.instance;
         rP.attackActions.Add(ssa); 
-        
+    }
+}
+
+public class GaussCannon : AttackCard
+{
+    public GaussCannon()
+    {
+        cardID = 002;
+        cardType = 0;
+        cardName = "Gauss Cannon";
+        cardDescr = "Target 1 tile to apply 1 damage.";
+        energyCostText = "2";
+        energyCost = 2;
+        targetType = TargetType.selectTarget;
+        numTargets = 1;
+        damageDealt = 1;
+    }
+
+    public override void PlayCard(bool playedByAI)
+    {
+        base.PlayCard(playedByAI);
+        if (!playedByAI)
+        {
+            Targetting targetting = Targetting.instance;
+            targetting.SelectObjectAoE(0);
+            targetting.currentCondition = Targetting.TargetCondition.isEnemyTile;
+        }
+
+        GuassCannonAction gca = new GuassCannonAction();
+        gca.actionName = "Scatter Shot";
+        gca.target = null;
+        gca.damage = damageDealt;
+        gca.actionType = 0;
+
+        ResolutionPhase rP = ResolutionPhase.instance;
+        rP.storedAttackAction=gca;
     }
 }
 

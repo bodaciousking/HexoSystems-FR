@@ -10,22 +10,15 @@ public class TurnStructure : MonoBehaviour
     Decks decks;
     ResolutionPhase rP;
     DeckHandUI deckHandUI;
-    DeckHandUI enemyDeckHandUI;
+    AIInfo aiI;
+    AICities aiC;
     public turnPhase currentPhase = turnPhase.Standby;
     public int numTurns = 0;
 
     public bool testing;
 
 
-    public float testPhaseTime = 2f;
     public float standbyPhaseTime = 2f;
-    public float titlePhaseTime = 3f;
-    public float energyPhaseTime = 3f;
-    public float recalibratePhaseTime = 3f;
-    public float drawPhaseTime = 3f;
-    public float strategyPhaseTime = 12f;
-    public float resolutionPhaseTime = 30f;
-    public float discardPhaseTime = 3f;
     private void Awake()
     {
         if (instance != null)
@@ -42,9 +35,11 @@ public class TurnStructure : MonoBehaviour
         cH = GetComponent<CityHandler>();
         decks = GetComponent<Decks>();
         deckHandUI = GameObject.Find("UIScripts").GetComponent<DeckHandUI>();
-        enemyDeckHandUI = GameObject.Find("UIEnemy").GetComponent<DeckHandUI>();
         rP = GetComponent<ResolutionPhase>();
+        aiI = GetComponent<AIInfo>();
+        aiC = GetComponent<AICities>();
     }
+
     public enum turnPhase
     {
         Standby,
@@ -57,22 +52,8 @@ public class TurnStructure : MonoBehaviour
         Discard
     }
 
-    public void ResetAllTimers()
-    {
-        StopCoroutine(TimeNextTurn(testPhaseTime));
-        StopCoroutine(TimeNextTurn(standbyPhaseTime));
-        StopCoroutine(TimeNextTurn(titlePhaseTime));
-        StopCoroutine(TimeNextTurn(energyPhaseTime));
-        StopCoroutine(TimeNextTurn(recalibratePhaseTime));
-        StopCoroutine(TimeNextTurn(drawPhaseTime));
-        StopCoroutine(TimeNextTurn(strategyPhaseTime));
-        StopCoroutine(TimeNextTurn(resolutionPhaseTime));
-        StopCoroutine(TimeNextTurn(discardPhaseTime));
-    }
-
     public void NextPhase()
     {
-        ResetAllTimers();
         switch (currentPhase)
         {
             case turnPhase.Standby:
@@ -118,38 +99,20 @@ public class TurnStructure : MonoBehaviour
     {
         numTurns++;
         msgD.DisplayMessage("Eon " + numTurns, 1f);
-
-        if (testing)
-        {
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(titlePhaseTime);
     }
     public void BeginPhaseEnergy()
     {
         int generatedEnergy = 0;
         generatedEnergy = cH.DetermineEnergyGeneratedByCities() + 10 /* 10 = baseEnergy */;
         msgD.DisplayMessage("Energy Generated: " + generatedEnergy, 1f);
-
-        if (testing)
-        {
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(energyPhaseTime);
+        aiI.aiEnergy = aiC.DetermineEnergyGeneratedByCities();
     }
     public void BeginPhaseRecalibrate()
     {
         msgD.DisplayMessage("Recalibrate Phase", 1f);
         //Code for regenerating/decaying shields, etc. goes here.
-
-        if (testing)
-        {
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(recalibratePhaseTime);
+        aiI.ResetPriorities();
+        aiI.DeterminePriorities();
     }
     public void BeginPhaseDraw()
     {
@@ -158,47 +121,29 @@ public class TurnStructure : MonoBehaviour
         decks.PrepareDecks();
         deckHandUI.EnableDeckUI();
         deckHandUI.EnableHandUI();
-        enemyDeckHandUI.EnableDeckUI();
-        enemyDeckHandUI.EnableHandUI();
+        deckHandUI.EnableAIHandUI();
 
-        SetNextTurnTimer(drawPhaseTime);
+        aiI.AIDrawCard();
+        aiI.AIDrawCard();
+        aiI.AIDrawCard();
+        aiI.AIDrawCard();
+        aiI.AIDrawCard();
     }
     public void BeginPhaseStrategy()
     {
         msgD.DisplayMessage("Strategy Phase", 1f);
         deckHandUI.DisableDeckUI();
-        enemyDeckHandUI.DisableDeckUI();
-
-        if (testing)
-        {
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(strategyPhaseTime);
+        aiI.AiPlayCards();
     }
     public void BeginPhaseResolution()
     {
         msgD.DisplayMessage("Resolution Phase", 1f);
         rP.BeginPlayActions();
-
-        if (testing)
-        {
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(resolutionPhaseTime);
     }
     public void BeginPhaseDiscard()
     {
         msgD.DisplayMessage("Discard Phase", 1f);
         //Code for discarding cards goes here.
-
-        if (testing)
-        {
-            SetNextTurnTimer(testPhaseTime);
-        }
-        else
-            SetNextTurnTimer(discardPhaseTime);
     }
 
     public void SetNextTurnTimer(float time)

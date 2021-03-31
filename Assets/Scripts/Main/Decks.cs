@@ -37,12 +37,13 @@ public class Decks : MonoBehaviour
 
     public void PopulateAttackDeck()
     {
-        allAttackCards.Add(new ScatterShot());
-        allAttackCards.Add(new ScatterShot());
-        allAttackCards.Add(new ScatterShot());
-        allAttackCards.Add(new ScatterShot());
-        allAttackCards.Add(new ScatterShot());
-        allAttackCards.Add(new ScatterShot());
+        allAttackCards.Add(new GaussCannon());
+        //allAttackCards.Add(new ScatterShot());
+        //allAttackCards.Add(new ScatterShot());
+        //allAttackCards.Add(new ScatterShot());
+        //allAttackCards.Add(new ScatterShot());
+        //allAttackCards.Add(new ScatterShot());
+        //allAttackCards.Add(new ScatterShot());
     }
     public void PopulateDefenceDeck()
     {

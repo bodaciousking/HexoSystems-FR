@@ -8,6 +8,7 @@ public class DeckHandUI : MonoBehaviour
 {
     public GameObject deckUI;
     public Transform handHolder;
+    public Transform enemyHandHolder;
     public GameObject handCardButton;
     Hands playerHand;
     public static DeckHandUI instance;
@@ -35,6 +36,15 @@ public class DeckHandUI : MonoBehaviour
         handHolder.gameObject.SetActive(true);
     }
     public void DisableHandUI()
+    {
+        handHolder.gameObject.SetActive(false);
+    }
+    
+    public void EnableAIHandUI()
+    {
+        handHolder.gameObject.SetActive(true);
+    }
+    public void DisableAIHandUI()
     {
         handHolder.gameObject.SetActive(false);
     }
